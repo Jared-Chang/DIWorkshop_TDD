@@ -4,7 +4,7 @@ namespace AuthenticationServiceNamespace
     {
         public bool Verify(string accountId, string password, string otp)
         {
-            if (password == "Wrong Password")
+            if (password == "Wrong Password" || password == "Wrong Password 2")
                 return false;
             return true;
         }
