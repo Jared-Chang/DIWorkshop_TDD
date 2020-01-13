@@ -8,6 +8,7 @@ namespace AuthenticationServiceTestNamespace
     public class AuthenticationServiceTest
     {
         private AuthenticationService _authenticationService;
+        private IProfileDao _fakeProfileDao;
         private const string DefaultAccountId = "Account Id";
         private const string DefaultOtp = "Otp";
         private const string DefaultPassword = "Password";
@@ -15,10 +16,10 @@ namespace AuthenticationServiceTestNamespace
         [SetUp]
         public void SetUp()
         {
-            var fakeProfileDao = Substitute.For<IProfileDao>();
-            _authenticationService = new AuthenticationService(fakeProfileDao);
+            _fakeProfileDao = Substitute.For<IProfileDao>();
+            _authenticationService = new AuthenticationService(_fakeProfileDao);
 
-            fakeProfileDao.GetPassword(DefaultAccountId).Returns(DefaultPassword);
+            GivenPassword(DefaultAccountId, DefaultPassword);
         }
 
         [Test]
@@ -37,6 +38,11 @@ namespace AuthenticationServiceTestNamespace
         public void is_invalid_another_wrong_password()
         {
             ShouldBeInvalid(DefaultAccountId, "Wrong Password 2", DefaultOtp);
+        }
+
+        private void GivenPassword(string accountId, string password)
+        {
+            _fakeProfileDao.GetPassword(accountId).Returns(password);
         }
 
         private void ShouldBeInvalid(string accountId, string password, string otp)
