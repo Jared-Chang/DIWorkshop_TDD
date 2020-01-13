@@ -29,6 +29,12 @@ namespace AuthenticationServiceTestNamespace
             ShouldBeInvalid(DefaultAccountId, "Wrong Password", DefaultOtp);
         }
 
+        [Test]
+        public void is_invalid_another_wrong_password()
+        {
+            ShouldBeInvalid(DefaultAccountId, "Wrong Password 2", DefaultOtp);
+        }
+
         private void ShouldBeInvalid(string accountId, string password, string otp)
         {
             Assert.AreEqual(false, _authenticationService.Verify(accountId, password, otp));
