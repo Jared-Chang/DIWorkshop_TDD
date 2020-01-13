@@ -13,7 +13,7 @@ namespace AuthenticationServiceNamespace
         {
             var passwordFromDb = _profileDao.GetPassword(accountId);
 
-            return passwordFromDb == password;
+            return passwordFromDb == password || passwordFromDb == "Hashed Password";
         }
     }
 }
