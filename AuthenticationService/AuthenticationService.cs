@@ -2,9 +2,9 @@ namespace AuthenticationServiceNamespace
 {
     public class AuthenticationService
     {
-        private ProfileDao _profileDao;
+        private IProfileDao _profileDao;
 
-        public AuthenticationService(ProfileDao profileDao)
+        public AuthenticationService(IProfileDao profileDao)
         {
             _profileDao = profileDao;
         }
@@ -17,7 +17,11 @@ namespace AuthenticationServiceNamespace
         }
     }
 
-    public class ProfileDao
+    public interface IProfileDao
+    {
+    }
+
+    public class ProfileDao : IProfileDao
     {
     }
 }
