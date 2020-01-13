@@ -4,9 +4,9 @@ namespace AuthenticationServiceNamespace
     {
         private ProfileDao _profileDao;
 
-        public AuthenticationService()
+        public AuthenticationService(ProfileDao profileDao)
         {
-            _profileDao = new ProfileDao();
+            _profileDao = profileDao;
         }
 
         public bool Verify(string accountId, string password, string otp)
