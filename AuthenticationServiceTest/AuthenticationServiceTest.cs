@@ -8,8 +8,10 @@ namespace AuthenticationServiceTestNamespace
     public class AuthenticationServiceTest
     {
         private AuthenticationService _authenticationService;
+        private IHash _fakeHash;
         private IProfileDao _fakeProfileDao;
         private const string DefaultAccountId = "Account Id";
+        private const string DefaultHashedPassword = "Hashed Password";
         private const string DefaultOtp = "Otp";
         private const string DefaultPassword = "Password";
 
@@ -17,9 +19,11 @@ namespace AuthenticationServiceTestNamespace
         public void SetUp()
         {
             _fakeProfileDao = Substitute.For<IProfileDao>();
-            _authenticationService = new AuthenticationService(_fakeProfileDao);
+            _fakeHash = Substitute.For<IHash>();
+            _authenticationService = new AuthenticationService(_fakeProfileDao, _fakeHash);
 
             GivenPassword(DefaultAccountId, DefaultPassword);
+            GivenHashedPassword(DefaultPassword, DefaultPassword);
         }
 
         [Test]
@@ -27,7 +31,6 @@ namespace AuthenticationServiceTestNamespace
         {
             ShouldBeValid(DefaultAccountId, DefaultPassword, DefaultOtp);
         }
-
 
         [Test]
         public void is_invalid()
@@ -44,8 +47,15 @@ namespace AuthenticationServiceTestNamespace
         [Test]
         public void password_should_hash()
         {
-            GivenPassword(DefaultAccountId, "Hashed Password");
+            GivenHashedPassword(DefaultPassword, DefaultHashedPassword);
+            GivenPassword(DefaultAccountId, DefaultHashedPassword);
+
             ShouldBeValid(DefaultAccountId, DefaultPassword, DefaultOtp);
+        }
+
+        private void GivenHashedPassword(string password, string hashedPassword)
+        {
+            _fakeHash.Compute(password).Returns(hashedPassword);
         }
 
         private void GivenPassword(string accountId, string password)
