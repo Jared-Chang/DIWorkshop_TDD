@@ -20,8 +20,4 @@ namespace AuthenticationServiceNamespace
     public interface IProfileDao
     {
     }
-
-    public class ProfileDao : IProfileDao
-    {
-    }
 }
