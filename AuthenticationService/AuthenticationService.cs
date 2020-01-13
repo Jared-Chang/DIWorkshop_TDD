@@ -2,7 +2,7 @@ namespace AuthenticationServiceNamespace
 {
     public class AuthenticationService
     {
-        private IProfileDao _profileDao;
+        private readonly IProfileDao _profileDao;
 
         public AuthenticationService(IProfileDao profileDao)
         {
@@ -11,13 +11,9 @@ namespace AuthenticationServiceNamespace
 
         public bool Verify(string accountId, string password, string otp)
         {
-            if (password == "Wrong Password" || password == "Wrong Password 2")
-                return false;
-            return true;
-        }
-    }
+            var passwordFromDb = _profileDao.GetPassword(accountId);
 
-    public interface IProfileDao
-    {
+            return passwordFromDb == password;
+        }
     }
 }
