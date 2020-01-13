@@ -16,7 +16,7 @@ namespace AuthenticationServiceNamespace
             var passwordFromDb = _profileDao.GetPassword(accountId);
             var hashedPassword = _sha256Adapter.Compute(password);
 
-            return passwordFromDb == hashedPassword;
+            return passwordFromDb == hashedPassword && otp != "Wrong otp";
         }
     }
 }
