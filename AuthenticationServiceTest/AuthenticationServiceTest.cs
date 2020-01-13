@@ -1,3 +1,4 @@
+using AuthenticationServiceNamespace;
 using NUnit.Framework;
 
 namespace AuthenticationServiceTestNamespace
@@ -8,7 +9,9 @@ namespace AuthenticationServiceTestNamespace
         [Test]
         public void is_valid()
         {
-            Assert.Pass();
+            var authenticationService = new AuthenticationService();
+
+            Assert.AreEqual(true, authenticationService.Verify("Account Id", "Password", "Otp"));
         }
     }
 }
