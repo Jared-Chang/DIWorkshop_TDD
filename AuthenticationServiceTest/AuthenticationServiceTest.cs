@@ -28,6 +28,7 @@ namespace AuthenticationServiceTestNamespace
             ShouldBeValid(DefaultAccountId, DefaultPassword, DefaultOtp);
         }
 
+
         [Test]
         public void is_invalid()
         {
@@ -38,6 +39,13 @@ namespace AuthenticationServiceTestNamespace
         public void is_invalid_another_wrong_password()
         {
             ShouldBeInvalid(DefaultAccountId, "Wrong Password 2", DefaultOtp);
+        }
+
+        [Test]
+        public void password_should_hash()
+        {
+            GivenPassword(DefaultAccountId, "Hashed Password");
+            ShouldBeValid(DefaultAccountId, DefaultPassword, DefaultOtp);
         }
 
         private void GivenPassword(string accountId, string password)
