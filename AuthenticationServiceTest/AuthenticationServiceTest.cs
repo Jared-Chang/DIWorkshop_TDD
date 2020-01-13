@@ -53,6 +53,12 @@ namespace AuthenticationServiceTestNamespace
             ShouldBeValid(DefaultAccountId, DefaultPassword, DefaultOtp);
         }
 
+        [Test]
+        public void invalid_otp()
+        {
+            ShouldBeInvalid(DefaultAccountId, DefaultPassword, "Wrong otp");
+        }
+
         private void GivenHashedPassword(string password, string hashedPassword)
         {
             _fakeHash.Compute(password).Returns(hashedPassword);
