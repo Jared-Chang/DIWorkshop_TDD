@@ -9,6 +9,7 @@ namespace AuthenticationServiceTestNamespace
     {
         private AuthenticationService _authenticationService;
         private IHash _fakeHash;
+        private IOtp _fakeOtp;
         private IProfileDao _fakeProfileDao;
         private const string DefaultAccountId = "Account Id";
         private const string DefaultHashedPassword = "Hashed Password";
@@ -20,10 +21,12 @@ namespace AuthenticationServiceTestNamespace
         {
             _fakeProfileDao = Substitute.For<IProfileDao>();
             _fakeHash = Substitute.For<IHash>();
-            _authenticationService = new AuthenticationService(_fakeProfileDao, _fakeHash);
+            _fakeOtp = Substitute.For<IOtp>();
+            _authenticationService = new AuthenticationService(_fakeProfileDao, _fakeHash, _fakeOtp);
 
             GivenPassword(DefaultAccountId, DefaultPassword);
             GivenHashedPassword(DefaultPassword, DefaultPassword);
+            GivenCurrentOtp(DefaultOtp);
         }
 
         [Test]
@@ -57,6 +60,11 @@ namespace AuthenticationServiceTestNamespace
         public void invalid_otp()
         {
             ShouldBeInvalid(DefaultAccountId, DefaultPassword, "Wrong otp");
+        }
+
+        private void GivenCurrentOtp(string otp)
+        {
+            _fakeOtp.GetCurrentOtp().Returns(otp);
         }
 
         private void GivenHashedPassword(string password, string hashedPassword)
