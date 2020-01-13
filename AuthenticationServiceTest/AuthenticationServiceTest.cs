@@ -1,4 +1,5 @@
 using AuthenticationServiceNamespace;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace AuthenticationServiceTestNamespace
@@ -14,7 +15,10 @@ namespace AuthenticationServiceTestNamespace
         [SetUp]
         public void SetUp()
         {
-            _authenticationService = new AuthenticationService();
+            var fakeProfileDao = Substitute.For<IProfileDao>();
+            _authenticationService = new AuthenticationService(fakeProfileDao);
+
+            fakeProfileDao.GetPassword(DefaultAccountId).Returns(DefaultPassword);
         }
 
         [Test]
